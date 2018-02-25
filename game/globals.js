@@ -1,4 +1,5 @@
 let player;
+let ai
 let groundLayer;
 let wallLayer;
 let map;
@@ -10,7 +11,9 @@ let win = false;
 const wall = 'Wall'
 const ground = 'Ground'
 
+const moveTime = 0
 const tileSize = 32;
+
 let isMoving = false
 function getPosition(pos) {
 	return {

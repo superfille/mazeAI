@@ -1,7 +1,6 @@
 function createMap() {
 	map = game.add.tilemap('tilemap');
 	map.addTilesetImage('tmw_desert_spacing', 'desert')
-	map.addTilesetImage('walls_1x2', 'walls')
 
 	groundLayer = map.createLayer('Ground')
 	wallLayer = map.createLayer('Wall')
@@ -10,32 +9,22 @@ function createMap() {
 }
 
 function createPlayer() {
+	ai = new AI()
 	// The player and its settings
 	position = getPos(10, 1)
-	player = game.add.sprite(position.x, position.y, 'dude');
-	game.physics.arcade.enable(player);
-	player.body.setSize(tileSize, tileSize, 0, 10)
-
-	// Player physics properties. Give the little guy a slight bounce.
-	player.body.collideWorldBounds = true;
-	player.body.onWorldBounds = new Phaser.Signal()
-	player.body.onWorldBounds.add(hitWorldBounds, this)
-	player.body.onMoveComplete = new Phaser.Signal()
-	player.body.onMoveComplete.add(recordPosition, this)
-
-	// Our two animations, walking left and right.
-	player.animations.add('left', [0, 1, 2, 3], 10, true);
-	player.animations.add('right', [5, 6, 7, 8], 10, true);
-	player.animations.add('up', [5, 6, 7, 8], 10, true);
-	player.animations.add('down', [0, 1, 2, 3], 10, true);
-
-	star = game.add.sprite(354, 600, 'star');
+	player = game.add.sprite(position.x, position.y, 'dude')
+	player.facing = Phaser.DOWN
+	player.animations.add('left', [0, 1, 2, 3], 10, true)
+	player.animations.add('right', [5, 6, 7, 8], 10, true)
+	player.animations.add('up', [5, 6, 7, 8], 10, true)
+	player.animations.add('down', [0, 1, 2, 3], 10, true)
+	
+	starPos = getPos(4, 4)
+	star = game.add.sprite(starPos.x, starPos.y, 'star');
 	game.physics.arcade.enable(star);
 }
 
 function create (){
-	game.physics.startSystem(Phaser.Physics.ARCADE);
-
 	createMap()
 	createPlayer()
 

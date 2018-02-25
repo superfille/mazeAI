@@ -1,57 +1,81 @@
 
 function update() {
-	// if (!player.body.isMoving) {
-	// 	AI.walk()
-	// }
-	
 	cursorMovement()
-	game.physics.arcade.collide(player, wallLayer, collisionHandler, null, this);
-	// game.physics.arcade.overlap(player, star, collectStar, null, this);
+	moveAI()
 }
 
 function lookAround() {
-	const p = getPosition(player.body.position)
+	const p = getPosition(player.position)
 	const layer = map.getLayer(wall)
-	const above = map.getTile(p.x, p.y - 1, layer)
-	const below = map.getTile(p.x, p.y + 1, layer)
-	const left = map.getTile(p.x - 1, p.y, layer)
-	const right = map.getTile(p.x + 1, p.y, layer)
+	const above = map.getTile(p.x,     p.y - 1, layer)
+	const below = map.getTile(p.x,     p.y + 1, layer)
+	const left =  map.getTile(p.x - 1, p.y,     layer)
+	const right = map.getTile(p.x + 1, p.y,     layer)
+
 	return {
-		above: {x: p.x,     y: p.y - 1, isWall: above === null},
-		below: {x: p.x,     y: p.y + 1, isWall: below === null},
-		left:  {x: p.x - 1, y: p.y,     isWall: left === null },
-		right: {x: p.x + 1, y: p.y,     isWall: right === null},
-		player: player.body.position
+		above: {x: p.x,     y: p.y - 1, isWall: above !== null},
+		below: {x: p.x,     y: p.y + 1, isWall: below !== null},
+		left:  {x: p.x - 1, y: p.y,     isWall: left !==  null},
+		right: {x: p.x + 1, y: p.y,     isWall: right !== null},
+		player: p
 	}	
+}
+
+function stoppedMoving() {
+	this.recordPosition()
+	isMoving = false
 }
 
 function recordPosition() {
 	ai.recordPosition(lookAround())
 }
 
-function movePlayer(direction, time = 500) {
-	switch(direction) {
-		case Phaser.ANGLE_LEFT:
-			player.body.moveTo(time, tileSize, Phaser.ANGLE_LEFT)
-			player.animations.play('left')
-			break
-		case Phaser.ANGLE_RIGHT:
-			player.body.moveTo(time, tileSize, Phaser.ANGLE_RIGHT)
-			player.animations.play('right')
-			break;
-		case Phaser.ANGLE_UP:
-			player.body.moveTo(time, tileSize, Phaser.ANGLE_UP)
-			player.animations.play('up')
-			break
-		case Phaser.ANGLE_DOWN:
-			player.body.moveTo(time, tileSize, Phaser.ANGLE_DOWN)
-			player.animations.play('down')
-			break
+function moveAI() {
+	if(!isMoving && !ai.hasWon()) {
+		ai.recordPosition(lookAround())
+		movePlayer(ai.getDirection(player))
+		if(star.x === player.x && star.y === player.y) {
+			ai.stop()
+		}
 	}
-	setTimeout(function() {
-		player.animations.stop();
-		player.frame = 4;
-	}, time)
+}
+
+function movePlayer(direction) {
+	if(!isMoving) {
+		isMoving = true
+		let x = player.x
+		let y = player.y
+		switch(direction) {
+			case Phaser.LEFT:
+				x = player.position.x - tileSize
+				player.animations.play('left')
+				player.facing = Phaser.LEFT
+				break
+			case Phaser.RIGHT:
+				x = player.position.x + tileSize
+				player.animations.play('right')
+				player.facing = Phaser.RIGHT
+				break;
+			case Phaser.UP:
+				y = player.position.y - tileSize
+				player.animations.play('up')
+				player.facing = Phaser.UP
+				break
+			case Phaser.DOWN:
+				y = player.position.y + tileSize
+				player.animations.play('down')
+				player.facing = Phaser.DOWN
+				break
+		}
+
+		game.add.tween(player).to({x: x, y: y}, moveTime, Phaser.Easing.Linear.None, true)
+		setTimeout(function() {
+			player.animations.stop();
+			isMoving = false
+			player.x = x
+			player.y = y
+		}, moveTime)
+	}
 }
 
 function cursorMovement() {
@@ -64,18 +88,4 @@ function cursorMovement() {
 	}else if (cursors.down.isDown){
 		movePlayer(Phaser.ANGLE_DOWN)
 	}
-}
-
-function collectStar(player, star) {
-	star.kill();
-	win = true;
-	ai.stop()
-}
-
-function hitWorldBounds (player) {
-	player.body.stopMovement(0)
-}
-
-function collisionHandler (player, wall) {
-	player.body.stopMovement(0)
 }

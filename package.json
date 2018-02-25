@@ -13,5 +13,5 @@
     "start": "node server.js"
   },
   "author": "Filip Anic",
-  "license": "ISC"
+  "license": "MIT"
 }
