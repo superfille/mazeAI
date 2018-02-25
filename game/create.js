@@ -11,7 +11,7 @@ function createMap() {
 function createPlayer() {
 	ai = new AI()
 	// The player and its settings
-	position = getPos(10, 1)
+	position = getPos(9, 11)
 	player = game.add.sprite(position.x, position.y, 'dude')
 	player.facing = Phaser.DOWN
 	player.animations.add('left', [0, 1, 2, 3], 10, true)
@@ -19,7 +19,7 @@ function createPlayer() {
 	player.animations.add('up', [5, 6, 7, 8], 10, true)
 	player.animations.add('down', [0, 1, 2, 3], 10, true)
 	
-	starPos = getPos(4, 4)
+	starPos = getPos(11, 5)
 	star = game.add.sprite(starPos.x, starPos.y, 'star');
 	game.physics.arcade.enable(star);
 }

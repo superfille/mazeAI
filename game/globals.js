@@ -11,7 +11,7 @@ let win = false;
 const wall = 'Wall'
 const ground = 'Ground'
 
-const moveTime = 0
+const moveTime = 200
 const tileSize = 32;
 
 let isMoving = false
