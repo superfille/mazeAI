@@ -4,8 +4,7 @@
   "description": "A labyrint game",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.16.2",
-    "phaser-ce": "^2.10.0"
+    "express": "^4.16.2"
   },
   "devDependencies": {},
   "scripts": {

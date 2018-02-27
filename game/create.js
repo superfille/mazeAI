@@ -14,6 +14,7 @@ function createPlayer() {
 	position = getPos(9, 11)
 	player = game.add.sprite(position.x, position.y, 'dude')
 	player.facing = Phaser.DOWN
+	player.pivot = new Phaser.Point(0, 10)
 	player.animations.add('left', [0, 1, 2, 3], 10, true)
 	player.animations.add('right', [5, 6, 7, 8], 10, true)
 	player.animations.add('up', [5, 6, 7, 8], 10, true)

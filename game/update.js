@@ -1,4 +1,3 @@
-
 function update() {
 	cursorMovement()
 	moveAI()

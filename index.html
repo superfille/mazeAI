@@ -3,17 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <title>My Page</title>
-    <script src="phaser.min.js"></script>
+    <script src="./game/phaser.min.js"></script>
 
     <script type="text/javascript">
         let game = {}
     </script>
 
-    <script src="globals.js"></script>
-    <script src="preload.js"></script>
-    <script src="create.js"></script>
-    <script src="update.js"></script>
-    <script src="ai.js"></script>
+    <script src="./game/globals.js"></script>
+    <script src="./game/preload.js"></script>
+    <script src="./game/create.js"></script>
+    <script src="./game/update.js"></script>
+    <script src="./game/ai.js"></script>
 
     <script type="text/javascript">
         game = new Phaser.Game(640, 640, Phaser.AUTO, '', { preload: preload, create: create, update: update });

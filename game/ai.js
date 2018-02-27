@@ -3,18 +3,12 @@ function Tile(_x, _y, _neighbors, isWall) {
 	this.y = _y
 	this.visits = 0
 	this.maxVisits = -1
-	this.neighbors = {}
 	this.wall = isWall
 
-	this.neighbors.above = _neighbors.above
-	this.neighbors.below = _neighbors.below
-	this.neighbors.left = _neighbors.left
-	this.neighbors.right = _neighbors.right
-
-	if(this.neighbors.above === undefined) this.maxVisits++
-	if(this.neighbors.below === undefined) this.maxVisits++
-	if(this.neighbors.left === undefined) this.maxVisits++
-	if(this.neighbors.right === undefined) this.maxVisits++
+	if(_neighbors.above === undefined) this.maxVisits++
+	if(_neighbors.below === undefined) this.maxVisits++
+	if(_neighbors.left === undefined) this.maxVisits++
+	if(_neighbors.right === undefined) this.maxVisits++
 
 	this.getPosition = function() {
 		return {x: this.x, y: this.y}
@@ -34,10 +28,8 @@ function Tile(_x, _y, _neighbors, isWall) {
 }
 
 function AI() {
-	this.path = [] // stack. Will be in "/ tileSize" positions
+	this.path = []
 	this.tiles = []
-	this.directins = ['right', 'up', 'left', 'back']
-	this.currentDirection = 'left'
 	this.won = false
 	
 	this.peek = function() {
